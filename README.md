@@ -7,7 +7,7 @@ DISCLAIMER:
 
 This is not intended to replace raylib. Infact you can use raylib zero in raylib and vice versa.
 
-What is raylib?
+## What is raylib?
 
 <img align="left" src="https://github.com/raysan5/raylib/blob/master/logo/raylib_logo_animation.gif" width="288px">
 
@@ -21,11 +21,16 @@ Ready to learn? Jump to [code examples!](https://www.raylib.com/examples.html)
 
 ---
 
-Reasons to use raylib zero:
+##
+##
+
+## Why use raylib zero?
 
 🤔 Begineer Friendly:
 Raylib zero is made for the purpose of making video game programming easy.
+
 😎 Open Source:
 Raylib zeros source code is online which lets people change it and make it better.
+
 🎈 Light Weight:
 Raylib zeros source code only comes out to be under 10kb.
