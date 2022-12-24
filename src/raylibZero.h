@@ -27,11 +27,22 @@ SOFTWARE.
 #ifndef RAYLIBZERO_H
 #define RAYLIBZERO_H
 
+// includes
 #include <stdint.h>
 #include <raylib.h>
 #include <raymath.h>
 #include <vector>
 #include <iostream>
+
+#if _WIN32 || _WIN64
+
+#include <winPhysac.h>
+
+#elif __linux__
+
+#include <physac.h>
+
+#endif
 
 // Scene
 
@@ -218,6 +229,11 @@ void DrawActor(const Actor& actor)
         actor.transform.rotation,
         WHITE
     );
+}
+
+Color NewColor(uint32_t r, uint32_t g, uint32_t b)
+{
+    return Color { (unsigned char)r, (unsigned char)g, (unsigned char)b, 255 };
 }
 
 #endif

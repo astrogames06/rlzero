@@ -27,11 +27,25 @@ SOFTWARE.
 #ifndef RAYLIBZERO_H
 #define RAYLIBZERO_H
 
+// includes
 #include <stdint.h>
 #include <raylib.h>
 #include <raymath.h>
 #include <vector>
 #include <iostream>
+#include <algorithm>
+
+
+#define PHYSAC_IMPLEMENTATION
+#if _WIN32 || _WIN64
+
+#include "physac.hpp"
+
+#elif __linux__
+
+#include "physac.h"
+
+#endif
 
 // Scene
 
@@ -142,6 +156,35 @@ Actor InitActor(const std::string& path, float x, float y, float rotation = 0.f)
     return Actor{0, 0, 0, 0};
 }
 
+// physics
+
+struct PhysicsBodyLite
+{
+    PhysicsBody body;
+    Vector2 size;
+    Color color;
+};
+
+std::vector<PhysicsBodyLite*> PhysicsBodies;
+
+PhysicsBodyLite InitBodyRect(float x, float y, float width, float height, Color color, bool can_rotate)
+{
+    PhysicsBody body = CreatePhysicsBodyRectangle(Vector2{x, y}, width, height, 10);
+    PhysicsBodyLite LiteBody = PhysicsBodyLite{body, Vector2{width, height}, color};
+
+    PhysicsBodies.push_back(&LiteBody);
+
+    return LiteBody;
+}
+
+void CreateBodyRect(float x, float y, float width, float height, Color color, bool can_rotate)
+{
+    PhysicsBody body = CreatePhysicsBodyRectangle(Vector2{x, y}, width, height, 10);
+    PhysicsBodyLite LiteBody = PhysicsBodyLite{body, Vector2{width, height}, color};
+
+    PhysicsBodies.push_back(&LiteBody);
+}
+
 // Game loop functions
 
 void Input(void);
@@ -151,6 +194,7 @@ void Draw(void);
 void Init(int width, int height, const char* title)
 {
     InitWindow(width, height, title);
+    InitPhysics();
     IsRun = true;
 
     WIDTH = width;
@@ -161,10 +205,36 @@ void BeginGame(void)
 {
     while (!WindowShouldClose())
     {
+        UpdatePhysics();
         Input();
         Update();
 
         BeginDrawing();
+
+        // for (PhysicsBodyLite* body : PhysicsBodies)
+        // {
+        //     std::vector<PhysicsBodyLite*>::iterator itr = std::find(PhysicsBodies.begin(), PhysicsBodies.end(), body);
+	    //     int index = std::distance(PhysicsBodies.begin(), itr);
+
+        //     int vertexCount = GetPhysicsShapeVerticesCount(index);
+        //     if (body[index].body.v)
+        // }
+
+        for (int i = 0; i < (int)PhysicsBodies.size(); i++)
+        {
+            int vertexCount = GetPhysicsShapeVerticesCount(i);
+            if (vertexCount == 4)
+            {
+                DrawRectanglePro(Rectangle{PhysicsBodies[i]->body->position.x, 
+                    PhysicsBodies[i]->body->position.y, 
+                    PhysicsBodies[i]->size.x, 
+                    PhysicsBodies[i]->size.y
+                },
+                    Vector2{PhysicsBodies[i]->size.x/2, PhysicsBodies[i]->size.y/2},
+                    PhysicsBodies[i]->body->orient, PhysicsBodies[i]->color
+                );
+            }
+        }
 
         Draw();
 
@@ -172,6 +242,7 @@ void BeginGame(void)
     }
 
     CloseWindow();
+    ClosePhysics();
 
     for (Actor* actor : actors)
     {
@@ -218,6 +289,11 @@ void DrawActor(const Actor& actor)
         actor.transform.rotation,
         WHITE
     );
+}
+
+Color NewColor(uint32_t r, uint32_t g, uint32_t b)
+{
+    return Color { (unsigned char)r, (unsigned char)g, (unsigned char)b, 255 };
 }
 
 #endif

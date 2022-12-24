@@ -1,13 +1,14 @@
 #include <raylibZero.h>
 
 static Actor poly;
+PhysicsBodyLite body;
 
 int xs = 300;
 int ys = -300;
 
 void Draw(void)
 {
-	fill(BLACK);
+	fill(NewColor(0, 255, 251));
 	
 	rect(WIDTH/2, HEIGHT/2, 50, 50, 45, BLUE);
 
@@ -49,6 +50,9 @@ void Update()
 
 void Input(void)
 {
+	if (IsKeyPressed(KEY_E))
+		CreateBodyRect(0, HEIGHT/2, 50, 50, RED, true);
+
 }
 
 int main(void)
@@ -57,6 +61,13 @@ int main(void)
 
 	poly = InitActor("image.png", 50, 50, 0);
 	poly.SetSize(50, 50);
+
+	PhysicsBodyLite boxA = InitBodyRect(0, HEIGHT/2, 50, 50, RED, true);
+	PhysicsBodyLite boxB = InitBodyRect(WIDTH/2, HEIGHT/2+100, 50, 50, GREEN, true);
+	PhysicsBodyLite boxC = InitBodyRect(WIDTH/2, HEIGHT/2, 50, 50, BLUE, true);
+
+	PhysicsBodyLite floor = InitBodyRect(0, HEIGHT, WIDTH*2, 50, GREEN, true);
+	floor.body->enabled = false;
 
 	BeginGame();
 
