@@ -3,7 +3,7 @@ A simple to use game framework build on raylib.
 
 Raylib zero is a simple to use single header only game framework made with raylib.
 
-DISCLAIMER:
+## DISCLAIMER:
 
 This is not intended to replace raylib. Infact you can use raylib zero in raylib and vice versa.
 
