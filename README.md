@@ -34,3 +34,30 @@ Raylib zeros source code is online which lets people change it and make it bette
 
 🎈 Light Weight:
 Raylib zeros source code only comes out to be under 10kb.
+
+---
+
+## Easy to use api
+
+Basic window program
+
+``` c
+#include <raylibZero.h>
+
+void Draw(void)
+{
+  fill(0, 0, 0);
+}
+
+void Update(void) {}
+
+void Input(void) {}
+
+int main()
+{
+  Init(840, 640, "Window! :)");
+  // init varibles
+  
+  BeginGame();
+}
+```
