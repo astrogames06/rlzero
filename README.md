@@ -42,16 +42,14 @@ Raylib zeros source code only comes out to be under 10kb.
 Basic window program
 
 ``` c
-#include <raylibZero.h>
+#include <rlzero.h>
+
+void Update(void) {}
 
 void Draw(void)
 {
   fill(0, 0, 0);
 }
-
-void Update(void) {}
-
-void Input(void) {}
 
 int main()
 {
